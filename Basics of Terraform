@@ -1,0 +1,111 @@
+Create resource - main.tf
+
+provider "google" {
+  project = "<project name>"
+  region  = "us-central1"
+  zone    = "us-central1-c"
+}
+
+resource "google_compute_network" "vpc_network" {
+  name = "terraform-network"
+
+}
+
+===================================================================
+Adding resources:
+=======================================================================
+provider "google" {
+  project = "<project name>"
+  region  = "us-central1"
+  zone    = "us-central1-c"
+}
+
+resource "google_compute_network" "vpc_network" {
+  name = "terraform-network"
+}
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "terraform-instance"
+  machine_type = "f1-micro"
+  tags =["webserver"]
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-1604-xenial-v20200407"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+      // Ephemeral IP
+    }
+  }
+}
+
+====================================================================================
+Changing resource:
+===================================================================================
+
+provider "google" {
+  project = "<project name>"
+  region  = "us-central1"
+  zone    = "us-central1-c"
+}
+
+resource "google_compute_network" "vpc_network" {
+  name = "terraform-network"
+}
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "terraform-instance"
+  machine_type = "f1-micro"
+  tags =["webserver"]
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-1604-xenial-v20200407"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+      // Ephemeral IP
+    }
+  }
+}
+
+=====================================================================================
+Destructive change:
+=====================================================================================
+
+provider "google" {
+  project = "<project name>"
+  region  = "us-central1"
+  zone    = "us-central1-c"
+}
+
+resource "google_compute_network" "vpc_network" {
+  name = "terraform-network"
+}
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "terraform-instance"
+  machine_type = "f1-micro"
+  tags =["webserver"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9debian-cloud/debian-9"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+      // Ephemeral IP
+    }
+  }
+}
+
