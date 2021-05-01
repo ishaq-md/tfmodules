@@ -22,13 +22,15 @@ pipeline {
         }
         
          stage('Provision infrastructure') {
-		 steps {            
+		 steps {   
+			 dir('Terraform tfvars')
+			 {
                 sh 'terraform init'
                 sh 'terraform plan -var-file="instance.tfvars"'
                 sh 'terraform apply -var-file="instance.tfvars" -auto-approve'
                              
              
-            
+			 }
         }
         }
         
