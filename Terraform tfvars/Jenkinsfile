@@ -6,15 +6,9 @@ pipeline {
     SVC_ACCOUNT_KEY = credentials('terraform-auth')
   }
      
-    stages {
-        stage ('checkout'){
-            steps {
-                git branch: 'master', url: 'https://github.com/ishaqmdgcp/batch03.git'
-            }
-        }
-      
+    stages {      
 
-		stage('Set Terraform path') {
+	stage('Set Terraform path') {
             steps {
                 script {
                     def tfHome = tool name: 'Terraform'
